@@ -1,13 +1,13 @@
 #include "monty.h"
 
 /**
- * swap - Delete top of list
- * @stack: Double linked list
- * @line_number: File line execution
+ * swap - Delete the top
+ * @stack: double llist
+ * @line_number: file
  */
 void swap(stack_t **stack, unsigned int line_number)
 {
-	int tmp;
+	int t;
 
 	if (!*stack || !(*stack)->next)
 	{
@@ -16,15 +16,15 @@ void swap(stack_t **stack, unsigned int line_number)
 		free_all();
 		exit(EXIT_FAILURE);
 	}
-	tmp = (*stack)->n;
+	t = (*stack)->n;
 	(*stack)->n = (*stack)->next->n;
-	(*stack)->next->n = tmp;
+	(*stack)->next->n = t;
 }
 
 /**
- * add - add the top two elements of the stack
- * @stack: Double linked list
- * @line_number: File line execution
+ * add - add at the top
+ * @stack: double llist
+ * @line_number: File
  */
 void add(stack_t **stack, unsigned int line_number)
 {
@@ -40,9 +40,9 @@ void add(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * sub - substract the top two elements of the stack
- * @stack: Double linked list
- * @line_number: Line counter
+ * sub - func to subtrack
+ * @stack: double llist
+ * @line_number: counter
  */
 void sub(stack_t **stack, unsigned int line_number)
 {
@@ -58,9 +58,9 @@ void sub(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * divi - divide the top two elements of the stack
- * @stack: Double linked list
- * @line_number: File line counter
+ * divi - func divid
+ * @stack: double llist
+ * @line_number: File
  */
 void divi(stack_t **stack, unsigned int line_number)
 {

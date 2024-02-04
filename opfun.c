@@ -1,31 +1,31 @@
 #include "monty.h"
 /**
- * pall - Print list
- * @stack: Double linked list
- * @line_number: File line execution
+ * pall -  printlist
+ * @stack: Double llist
+ * @line_number: execution
  */
 void pall(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp = *stack;
-	(void) line_number;
+	stack_t *t = *stack;
+	(void)line_number;
 
-	if (!tmp)
+	if (!t)
 		return;
-	while (tmp)
+	while (t)
 	{
-		printf("%d\n", tmp->n);
-		tmp = tmp->next;
+		printf("%d\n", t->n);
+		t = t->next;
 	}
 }
 
 /**
- * push - Insert a new value in list
- * @stack: Double linked list
- * @line_number: File line execution
+ * push - insert a new val
+ * @stack: Double llist
+ * @line_number: execution
  */
 void push(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp = NULL, *tm = *stack;
+	stack_t *t = NULL, *stm = *stack;
 	char *num;
 
 	num = strtok(NULL, " \r\t\n");
@@ -35,35 +35,35 @@ void push(stack_t **stack, unsigned int line_number)
 		free_all();
 		exit(EXIT_FAILURE);
 	}
-	tmp = malloc(sizeof(stack_t));
-	if (!tmp)
+	t = malloc(sizeof(stack_t));
+	if (!t)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
 		free_all();
 		exit(EXIT_FAILURE);
 	}
-	tmp->n = atoi(num);
+	t->n = atoi(num);
 	if (var.MODE == 0 || !*stack)
 	{
-		tmp->next = *stack;
-		tmp->prev = NULL;
+		t->next = *stack;
+		t->prev = NULL;
 		if (*stack)
-			(*stack)->prev = tmp;
-		*stack = tmp;
+			(*stack)->prev = t;
+		*stack = t;
 	}
 	else
 	{
-		while (tm->next)
-			tm = tm->next;
-		tm->next = tmp;
-		tmp->prev = tm;
-		tmp->next = NULL;
+		while (stm->next)
+			stm = stm->next;
+		stm->next = t;
+		t->prev = stm;
+		t->next = NULL;
 	}
 }
 
 /**
- * pint - Print last node
- * @stack: Double linked list
+ * pint - print lnode
+ * @stack: Double llist
  * @line_number: File line execution
  */
 void pint(stack_t **stack, unsigned int line_number)
@@ -78,13 +78,13 @@ void pint(stack_t **stack, unsigned int line_number)
 }
 
 /**
-* pop - Delete top of list
-* @stack: Double linked list
-* @line_number: File line execution
-*/
+ * pop - delete top
+ * @stack: Double  llist
+ * @line_number: File
+ */
 void pop(stack_t **stack, unsigned int line_number)
 {
-	stack_t *tmp;
+	stack_t *t;
 
 	if (!*stack)
 	{
@@ -93,9 +93,9 @@ void pop(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	tmp = *stack;
-	*stack = tmp->next;
-	if (tmp->next)
-		tmp->next->prev = NULL;
-	free(tmp);
+	t = *stack;
+	*stack = t->next;
+	if (t->next)
+		t->next->prev = NULL;
+	free(t);
 }

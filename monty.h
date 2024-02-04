@@ -66,26 +66,17 @@ typedef struct glob_var
 
 extern vars var;
 
-/* ================================================================= */
-/* man_file.c */
-/* ================================================================= */
 int start_vars(vars *var);
 instruction_t *create_instru();
 int call_funct(vars *var, char *opcode);
 void free_all(void);
 int _isdigit(char *string);
 
-/* ================================================================= */
-/* op_funct.c */
-/* ================================================================= */
 void pall(stack_t **stack, unsigned int line_number);
 void push(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 
-/* ================================================================= */
-/* op_funct_2.c */
-/* ================================================================= */
 void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void sub(stack_t **stack, unsigned int line_number);
