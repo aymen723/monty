@@ -4,18 +4,14 @@
 data_t data = DATA_INIT;
 
 /**
- * monty - helper function for main function
- * @args: pointer to struct of arguments from main
- *
- * Description: opens and reads from the file
- * containing the opcodes, and calls the function
- * that will find the corresponding executing function
+ * monty - function
+ * @args: pointer
  */
 void monty(args_t *args)
 {
-	size_t len = 0;
-	int get = 0;
-	void (*code_func)(stack_t **, unsigned int);
+	size_t lentgh = 0;
+	int g = 0;
+	void (*cfunc)(stack_t **, unsigned int);
 
 	if (args->ac != 2)
 	{
@@ -31,8 +27,8 @@ void monty(args_t *args)
 	while (1)
 	{
 		args->line_number++;
-		get = getline(&(data.line), &len, data.fptr);
-		if (get < 0)
+		g = getline(&(data.line), &lentgh, data.fptr);
+		if (g < 0)
 			break;
 		data.words = strtow(data.line);
 		if (data.words[0] == NULL || data.words[0][0] == '#')
@@ -40,8 +36,8 @@ void monty(args_t *args)
 			free_all(0);
 			continue;
 		}
-		code_func = get_func(data.words);
-		if (!code_func)
+		cfunc = get_func(data.words);
+		if (!cfunc)
 		{
 			dprintf(STDERR_FILENO, UNKNOWN, args->line_number, data.words[0]);
 			free_all(1);
@@ -54,11 +50,11 @@ void monty(args_t *args)
 }
 
 /**
- * main - entry point for monty bytecode interpreter
- * @argc: number of arguments
- * @argv: array of arguments
+ * main - entry point
+ * @argc: nbr args
+ * @argv: array
  *
- * Return: EXIT_SUCCESS or EXIT_FAILURE
+ * Return: 0
  */
 int main(int argc, char *argv[])
 {

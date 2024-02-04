@@ -2,37 +2,36 @@
 #include "lists.h"
 
 /**
- * count_word - helper function to count the number of words in a string
- * @s: string to evaluate
+ * count_word -  nbr of words in string
+ * @s: string
  *
- * Return: number of words
+ * Return: int
  */
 int count_word(char *s)
 {
-	int flag, c, w;
+	int f, count, word;
 
-	flag = 0;
-	w = 0;
+	f = 0;
+	word = 0;
 
-	for (c = 0; s[c] != '\0'; c++)
+	for (count = 0; s[count] != '\0'; count++)
 	{
-		if (s[c] == ' ')
-			flag = 0;
-		else if (flag == 0)
+		if (s[count] == ' ')
+			f = 0;
+		else if (f == 0)
 		{
-			flag = 1;
-			w++;
+			f = 1;
+			word++;
 		}
 	}
 
-	return (w);
+	return (word);
 }
 /**
- * **strtow - splits a string into words
- * @str: string to split
+ * **strtow - split
+ * @str: string
  *
- * Return: pointer to an array of strings (Success)
- * or NULL (Error)
+ * Return: ptr
  */
 char **strtow(char *str)
 {
@@ -44,7 +43,7 @@ char **strtow(char *str)
 	if (words == 0)
 		return (NULL);
 
-	matrix = (char **) malloc(sizeof(char *) * (words + 1));
+	matrix = (char **)malloc(sizeof(char *) * (words + 1));
 	if (matrix == NULL)
 		return (NULL);
 
@@ -55,7 +54,7 @@ char **strtow(char *str)
 			if (c)
 			{
 				end = i;
-				tmp = (char *) malloc(sizeof(char) * (c + 1));
+				tmp = (char *)malloc(sizeof(char) * (c + 1));
 				if (tmp == NULL)
 					return (NULL);
 				while (start < end)
@@ -76,18 +75,18 @@ char **strtow(char *str)
 }
 
 /**
- * free_everything - frees arrays of strings
- * @args: array of strings to free
+ * free_everything - free
+ * @args: array
  */
 void free_everything(char **args)
 {
-	int i;
+	int a;
 
 	if (!args)
 		return;
 
-	for (i = 0; args[i]; i++)
-		free(args[i]);
+	for (a = 0; args[a]; a++)
+		free(args[a]);
 
 	free(args);
 }
