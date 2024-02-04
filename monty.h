@@ -43,16 +43,15 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-
 /**
  * struct glob_var - golbal variables
- * @file: file name
- * @buff: Getline buffer
- * @tmp: Getline counter
- * @dict: instruction dictionary
- * @head: pointer to list
- * @line_number: Stores file current line
- * @MODE: Program configuration stack or queue
+ * @file: name
+ * @buff:  buffer
+ * @tmp:  counter
+ * @dict:  dictionary
+ * @head: pointer
+ * @line_number: current line
+ * @MODE: stack or queue
  */
 typedef struct glob_var
 {
@@ -64,7 +63,6 @@ typedef struct glob_var
 	unsigned int line_number;
 	int MODE;
 } vars;
-
 
 extern vars var;
 
@@ -92,22 +90,5 @@ void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void sub(stack_t **stack, unsigned int line_number);
 void divi(stack_t **stack, unsigned int line_number);
-
-/* ================================================================= */
-/* op_funct_3.c */
-/* ================================================================= */
-void mul(stack_t **stack, unsigned int line_number);
-void mod(stack_t **stack, unsigned int line_number);
-void pchar(stack_t **stack, unsigned int line_number);
-void pstr(stack_t **stack, unsigned int line_number);
-
-/* ================================================================= */
-/* op_funct_4.c */
-/* ================================================================= */
-void rotl(stack_t **stack, unsigned int line_number);
-void rotr(stack_t **stack, unsigned int line_number);
-void stack(stack_t **stack, unsigned int line_number);
-void queue(stack_t **stack, unsigned int line_number);
-
 
 #endif

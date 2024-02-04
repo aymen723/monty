@@ -1,9 +1,9 @@
 #include "monty.h"
 
 /**
- * start_vars - Fake rand to jackpoint Giga Millions
- * @var: Global variables to initialize
- * Return: 0 Success, 1 Failed
+ * start_vars - rand
+ * @var: gv
+ * Return: 0
  */
 int start_vars(vars *var)
 {
@@ -21,8 +21,8 @@ int start_vars(vars *var)
 }
 
 /**
- * create_instru - Create new functions dictionary
- * Return: Dictionary pointer
+ * create_instru - Create new functions
+ * Return: dic pointer
  */
 instruction_t *create_instru()
 {
@@ -42,50 +42,41 @@ instruction_t *create_instru()
 	ptr[6].opcode = "nop", ptr[6].f = NULL;
 	ptr[7].opcode = "sub", ptr[7].f = sub;
 	ptr[8].opcode = "div", ptr[8].f = divi;
-	ptr[9].opcode = "mul", ptr[9].f = mul;
-	ptr[10].opcode = "mod", ptr[10].f = mod;
-	ptr[11].opcode = "pchar", ptr[11].f = pchar;
-	ptr[12].opcode = "pstr", ptr[12].f = pstr;
-	ptr[13].opcode = "rotl", ptr[13].f = rotl;
-	ptr[14].opcode = "rotr", ptr[14].f = rotr;
-	ptr[15].opcode = "stack", ptr[15].f = stack;
-	ptr[16].opcode = "queue", ptr[16].f = queue;
 	ptr[17].opcode = NULL, ptr[17].f = NULL;
 
 	return (ptr);
 }
 
 /**
- * call_funct - Call Functions
- * @var: Global variables
- * @opcode: Command to execute
+ * call_funct - call func
+ * @var: gv
+ * @opcode: Command
  * Return: None
  */
 int call_funct(vars *var, char *opcode)
 {
-	int i;
+	int a;
 
-	for (i = 0; var->dict[i].opcode; i++)
-		if (strcmp(opcode, var->dict[i].opcode) == 0)
+	for (a = 0; var->dict[a].opcode; a++)
+		if (strcmp(opcode, var->dict[a].opcode) == 0)
 		{
-			if (!var->dict[i].f)
+			if (!var->dict[a].f)
 				return (EXIT_SUCCESS);
-			var->dict[i].f(&var->head, var->line_number);
+			var->dict[a].f(&var->head, var->line_number);
 			return (EXIT_SUCCESS);
 		}
 	if (strlen(opcode) != 0 && opcode[0] != '#')
 	{
 		fprintf(stderr, "L%u: unknown instruction %s\n",
-			var->line_number, opcode);
+				var->line_number, opcode);
 		return (EXIT_FAILURE);
 	}
 
 	return (EXIT_SUCCESS);
 }
 
-
 /**
- * free_all - Clean all program mallocs
+ * free_all - Clean
  * Return: None
  */
 void free_all(void)
@@ -107,17 +98,17 @@ void free_all(void)
 }
 
 /**
- * _isdigit - Clean all program mallocs
- * @string: Num to validate
- * Return: 0 Success, 1 Failed
+ * _isdigit - Clean
+ * @string: Num
+ * Return: 0
  */
 int _isdigit(char *string)
 {
-	int i;
+	int a;
 
-	for (i = 0; string[i]; i++)
+	for (a = 0; string[a]; a++)
 	{
-		if (string[i] < 48 || string[i] > 57)
+		if (string[a] < 48 || string[a] > 57)
 			return (1);
 	}
 	return (0);

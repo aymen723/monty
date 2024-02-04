@@ -3,14 +3,14 @@
 vars var;
 
 /**
- * main - Start LIFO, FILO program
- * @ac: Number of arguments
- * @av: Pointer containing arguments
- * Return: 0 Success, 1 Failed
+ * main - start
+ * @ac: nbr args
+ * @av: Ptr
+ * Return: 0
  */
 int main(int ac, char **av)
 {
-	char *opcode;
+	char *ocode;
 
 	if (ac != 2)
 	{
@@ -31,9 +31,9 @@ int main(int ac, char **av)
 
 	while (getline(&var.buff, &var.tmp, var.file) != EOF)
 	{
-		opcode = strtok(var.buff, " \r\t\n");
-		if (opcode != NULL)
-			if (call_funct(&var, opcode) == EXIT_FAILURE)
+		ocode = strtok(var.buff, " \r\t\n");
+		if (ocode != NULL)
+			if (call_funct(&var, ocode) == EXIT_FAILURE)
 			{
 				free_all();
 				return (EXIT_FAILURE);
