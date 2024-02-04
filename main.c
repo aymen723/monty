@@ -1,70 +1,47 @@
 #include "monty.h"
-#include "lists.h"
 
-data_t data = DATA_INIT;
-
-/**
- * monty - function
- * @args: pointer
- */
-void monty(args_t *args)
-{
-	size_t lentgh = 0;
-	int g = 0;
-	void (*cfunc)(stack_t **, unsigned int);
-
-	if (args->ac != 2)
-	{
-		dprintf(STDERR_FILENO, USAGE);
-		exit(EXIT_FAILURE);
-	}
-	data.fptr = fopen(args->av, "r");
-	if (!data.fptr)
-	{
-		dprintf(STDERR_FILENO, FILE_ERROR, args->av);
-		exit(EXIT_FAILURE);
-	}
-	while (1)
-	{
-		args->line_number++;
-		g = getline(&(data.line), &lentgh, data.fptr);
-		if (g < 0)
-			break;
-		data.words = strtow(data.line);
-		if (data.words[0] == NULL || data.words[0][0] == '#')
-		{
-			free_all(0);
-			continue;
-		}
-		cfunc = get_func(data.words);
-		if (!cfunc)
-		{
-			dprintf(STDERR_FILENO, UNKNOWN, args->line_number, data.words[0]);
-			free_all(1);
-			exit(EXIT_FAILURE);
-		}
-		code_func(&(data.stack), args->line_number);
-		free_all(0);
-	}
-	free_all(1);
-}
+vars var;
 
 /**
- * main - entry point
- * @argc: nbr args
- * @argv: array
- *
- * Return: 0
+ * main - Start LIFO, FILO program
+ * @ac: Number of arguments
+ * @av: Pointer containing arguments
+ * Return: 0 Success, 1 Failed
  */
-int main(int argc, char *argv[])
+int main(int ac, char **av)
 {
-	args_t args;
+	char *opcode;
 
-	args.av = argv[1];
-	args.ac = argc;
-	args.line_number = 0;
+	if (ac != 2)
+	{
+		fprintf(stderr, "USAGE: monty file\n");
+		return (EXIT_FAILURE);
+	}
 
-	monty(&args);
+	if (start_vars(&var) != 0)
+		return (EXIT_FAILURE);
+
+	var.file = fopen(av[1], "r");
+	if (!var.file)
+	{
+		fprintf(stderr, "Error: Can't open file %s\n", av[1]);
+		free_all();
+		return (EXIT_FAILURE);
+	}
+
+	while (getline(&var.buff, &var.tmp, var.file) != EOF)
+	{
+		opcode = strtok(var.buff, " \r\t\n");
+		if (opcode != NULL)
+			if (call_funct(&var, opcode) == EXIT_FAILURE)
+			{
+				free_all();
+				return (EXIT_FAILURE);
+			}
+		var.line_number++;
+	}
+
+	free_all();
 
 	return (EXIT_SUCCESS);
 }
