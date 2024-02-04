@@ -1,104 +1,70 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "monty.h"
+#include "lists.h"
 
-// Node structure
-struct Node
-{
-    int data;
-    struct Node *next;
-};
+data_t data = DATA_INIT;
 
-// Stack structure
-struct Stack
+/**
+ * monty - function
+ * @args: pointer
+ */
+void monty(args_t *args)
 {
-    struct Node *top;
-};
+	size_t lentgh = 0;
+	int g = 0;
+	void (*cfunc)(stack_t **, unsigned int);
 
-// Function to create a new node
-struct Node *createNode(int data)
-{
-    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
+	if (args->ac != 2)
+	{
+		dprintf(STDERR_FILENO, USAGE);
+		exit(EXIT_FAILURE);
+	}
+	data.fptr = fopen(args->av, "r");
+	if (!data.fptr)
+	{
+		dprintf(STDERR_FILENO, FILE_ERROR, args->av);
+		exit(EXIT_FAILURE);
+	}
+	while (1)
+	{
+		args->line_number++;
+		g = getline(&(data.line), &lentgh, data.fptr);
+		if (g < 0)
+			break;
+		data.words = strtow(data.line);
+		if (data.words[0] == NULL || data.words[0][0] == '#')
+		{
+			free_all(0);
+			continue;
+		}
+		cfunc = get_func(data.words);
+		if (!cfunc)
+		{
+			dprintf(STDERR_FILENO, UNKNOWN, args->line_number, data.words[0]);
+			free_all(1);
+			exit(EXIT_FAILURE);
+		}
+		code_func(&(data.stack), args->line_number);
+		free_all(0);
+	}
+	free_all(1);
 }
 
-// Function to check if the stack is empty
-int isEmpty(struct Stack *stack)
+/**
+ * main - entry point
+ * @argc: nbr args
+ * @argv: array
+ *
+ * Return: 0
+ */
+int main(int argc, char *argv[])
 {
-    return (stack->top == NULL);
-}
+	args_t args;
 
-// Function to push an element onto the stack
-void push(struct Stack *stack, int data)
-{
-    struct Node *newNode = createNode(data);
-    newNode->next = stack->top;
-    stack->top = newNode;
-    printf("%d pushed to the stack.\n", data);
-}
+	args.av = argv[1];
+	args.ac = argc;
+	args.line_number = 0;
 
-// Function to pop an element from the stack
-int pop(struct Stack *stack)
-{
-    if (isEmpty(stack))
-    {
-        printf("Stack is empty.\n");
-        return -1;
-    }
-    struct Node *temp = stack->top;
-    int data = temp->data;
-    stack->top = stack->top->next;
-    free(temp);
-    return data;
-}
+	monty(&args);
 
-// Function to get the top element of the stack
-int peek(struct Stack *stack)
-{
-    if (isEmpty(stack))
-    {
-        printf("Stack is empty.\n");
-        return -1;
-    }
-    return stack->top->data;
-}
-
-// Function to display the stack
-void display(struct Stack *stack)
-{
-    if (isEmpty(stack))
-    {
-        printf("Stack is empty.\n");
-        return;
-    }
-    struct Node *current = stack->top;
-    printf("Stack: ");
-    while (current != NULL)
-    {
-        printf("%d ", current->data);
-        current = current->next;
-    }
-    printf("\n");
-}
-
-// Main function
-int main()
-{
-    struct Stack *stack = (struct Stack *)malloc(sizeof(struct Stack));
-    stack->top = NULL;
-
-    push(stack, 1);
-    push(stack, 2);
-    push(stack, 3);
-
-    display(stack);
-
-    printf("Top element: %d\n", peek(stack));
-
-    printf("Popped element: %d\n", pop(stack));
-
-    display(stack);
-
-    return 0;
+	return (EXIT_SUCCESS);
 }
